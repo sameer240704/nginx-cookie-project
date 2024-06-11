@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Protected Component</title>
+  </head>
+  <body>
+    <div>
+      <h2>Protected Component</h2>
+      <p id="data"></p>
+      <p id="error"></p>
+    </div>
+
+    <script>
+      async function fetchData() {
+        const dataElement = document.getElementById("data");
+        const errorElement = document.getElementById("error");
+
+        try {
+          const cookie = document.cookie;
+          const response = await fetch("http://client1.xyz.com/helpdesk", {
+            credentials: "include",
+          });
+
+          console.log(cookie);
+
+          if (!response.ok) {
+            throw new Error("Error fetching data");
+          }
+
+          const data = await response.json();
+          dataElement.textContent = JSON.stringify(data);
+        } catch (err) {
+          errorElement.textContent = "Error fetching data";
+        }
+      }
+
+      fetchData();
+    </script>
+  </body>
+</html>
